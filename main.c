@@ -6,55 +6,84 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/06/28 21:54:01 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:34:03 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// it just print the error in stderr
 void	print_err(void)
 {
 	write(2, "number of arguments is less than expected\n", 43);
 }
 
-int	start_timestamp(void)
+// this gets the time sence the Epoch in ms
+long long	start_timestamp(void)
 {
 	struct timeval pp;
 	
 	gettimeofday(&pp, NULL);
-	return (pp.tv_sec * 1000L + pp.tv_usec / 1000);
+	return (((long long)pp.tv_sec * 1000L) + (pp.tv_usec / 1000));
 }
 
-void	*thread_routine(void *arg)
+// it takes the duration and iterate till it spend it witouth overusing the cpu
+void	soft_sleeping(long long duration)
 {
-	t_data box;
-	
-	box = *(t_data *)arg;
-	if (box.ind % 2 == 0)
-		usleep(200);
-	unsigned long int time = box.ptr->f_time;
+	long	start;
+	long	now;
+
+	start = start_timestamp();
 	while (1)
 	{
-		if (box.ind < box.ptr->ph_nbr)
-			pthread_mutex_lock(&box.ptr->forks[box.ind]);
-		else
-			pthread_mutex_lock(&box.ptr->forks[0]);
-		pthread_mutex_lock(&box.ptr->forks[box.ind - 1]);
-		printf("%ld %d is taken the forks\n", start_timestamp() - time, box.ind);
-		printf("%ld %d is eating\n", start_timestamp() - time, box.ind);
-		usleep(box.ptr->tte);
-		pthread_mutex_unlock(&box.ptr->forks[box.ind - 1]);
-		if (box.ind < box.ptr->ph_nbr)
-			pthread_mutex_unlock(&box.ptr->forks[box.ind]);
-		else
-			pthread_mutex_unlock(&box.ptr->forks[0]);
-		printf("%ld %d is sleeping\n", start_timestamp() - time, box.ind);
-		usleep(box.ptr->tts);
-		printf("%ld %d is thinking\n", start_timestamp() - time, box.ind);
+		now = start_timestamp();
+		if (now - start >= duration)
+			break;
+		usleep(1000);
 	}
-	return (NULL);
 }
 
+// it simulate a philosopher (eats, sleep, think, die)
+void *thread_routine(void *arg)
+{
+	t_data	box;
+	int		left;
+	int		right;
+
+	box = *(t_data *)arg;
+	right = box.ind - 1;
+	if (box.ind == box.ptr->ph_nbr)
+		left = 0;
+	else
+		left = box.ind;
+	if (box.ind % 2 == 0)
+		soft_sleeping(100);
+	while (1)
+	{
+		if (box.ind % 2 == 0)
+		{
+			pthread_mutex_lock(&box.ptr->forks[right]);
+			printf("%lld %d is taking fork\n", start_timestamp() - box.ptr->f_time, box.ind);
+			pthread_mutex_lock(&box.ptr->forks[left]);
+		}
+		else
+		{
+			pthread_mutex_lock(&box.ptr->forks[left]);
+			printf("%lld %d is taking fork\n", start_timestamp() - box.ptr->f_time, box.ind);
+			pthread_mutex_lock(&box.ptr->forks[right]);
+		}
+		printf("%lld %d is eating\n", start_timestamp() - box.ptr->f_time, box.ind);
+		soft_sleeping(box.ptr->tte);
+		printf("%lld %d is sleeping\n", start_timestamp() - box.ptr->f_time, box.ind);
+		pthread_mutex_unlock(&box.ptr->forks[left]);
+		pthread_mutex_unlock(&box.ptr->forks[right]);
+		soft_sleeping(box.ptr->tts);
+		printf("%lld %d is thinking\n", start_timestamp() - box.ptr->f_time, box.ind);
+	}
+    return NULL;
+}
+
+// this analyse and parse the arguments passed to philo and store em in t_philo struct
 bool	analyse_data_nd_store(char **arg, t_philo *box)
 {
 	int	i;
