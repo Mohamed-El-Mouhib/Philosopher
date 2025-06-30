@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/06/29 22:56:28 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:41:14 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_philo
 	size_t			tte;				//time to eat
 	size_t			tts;				//time to sleep
 	ssize_t			nte;				//nbr of times the philo must eat
-	long long	f_time;
+	size_t			f_time;
 }	t_philo;
 
 typedef struct s_data
@@ -42,6 +42,7 @@ typedef struct s_data
 }	t_data;
 
 // MAX_PHILOS * sizeof (int) + sizeof (t_philo *)
+// inputed time is should be *1000 to be in miliseconds
 
 void	print_data(t_philo *box);
 
