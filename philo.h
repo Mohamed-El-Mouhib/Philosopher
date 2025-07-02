@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/06/30 16:41:14 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:10:11 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,18 @@
 
 typedef struct s_philo
 {
-	int	ph_nbr;							//number of philosophers
-	pthread_t		philos[MAX_PHILOS];	//arr of thread id
-	pthread_mutex_t	*forks;				//pointer to fork arr[ph_nbr]
-	size_t			ttd;				//time to die
-	size_t			tte;				//time to eat
-	size_t			tts;				//time to sleep
-	ssize_t			nte;				//nbr of times the philo must eat
-	size_t			f_time;
+	int	ph_nbr;								//number of philosophers
+	pthread_t		philos[MAX_PHILOS];		//arr of thread id
+	pthread_mutex_t	*forks;					//pointer to fork arr[ph_nbr]
+	size_t			ttd;					//time to die
+	size_t			tte;					//time to eat
+	size_t			tts;					//time to sleep
+	ssize_t			nte;					//nbr of times the philo must eat
+	size_t			f_time;					//time of the start of program
+	pthread_mutex_t	death_lock;				//mutex to protec the shared memory lm[ph_nbr]
+	size_t			last_meal[MAX_PHILOS];	//arr of last meal times of each philo
+	bool			some_dead;				//boolean to check if some philo is dead
+	pthread_mutex_t	print_access;			//mutex for getting access to monitor philo status
 }	t_philo;
 
 typedef struct s_data
