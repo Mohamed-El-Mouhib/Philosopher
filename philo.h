@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/01 12:10:11 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:30:23 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 	size_t			last_meal[MAX_PHILOS];	//arr of last meal times of each philo
 	bool			some_dead;				//boolean to check if some philo is dead
 	pthread_mutex_t	print_access;			//mutex for getting access to monitor philo status
+	int				eat_n[MAX_PHILOS];		//arr of nbr times each philo eaten
 }	t_philo;
 
 typedef struct s_data

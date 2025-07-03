@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/02 22:05:31 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:36:48 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void *monitoring_routing(void *arg)
 		{
 			pthread_mutex_lock(&box->death_lock);
 			now = start_timestamp();
-			if (now - box->last_meal[i] >= box->ttd)
+			if ((now - box->last_meal[i] >= box->ttd) || (box->nte >= 0 && box->nte == box->eat_n[i]))
 			{
 				printf("%lld %d is died\n", now - box->f_time, i + 1);
 				box->some_dead = true;
@@ -67,7 +67,6 @@ void *monitoring_routing(void *arg)
 			pthread_mutex_unlock(&box->death_lock);
 			i++;
 		}
-		// usleep(100);
 		soft_sleeping(1);
 	}
 	return (NULL);
@@ -81,10 +80,7 @@ void	monitoring_states(t_data *box, char *str)
 	now = start_timestamp();
 	pthread_mutex_lock(&box->ptr->death_lock);
 	if (!box->ptr->some_dead)
-	{
-		// printf("philo %d last meal was %lld\n", box->ind, start_timestamp() - box->ptr->last_meal[box->ind - 1]);
 		printf("%lld %d %s\n", now - box->ptr->f_time, box->ind, str);
-	}
 	pthread_mutex_unlock(&box->ptr->death_lock);
 }
 
@@ -92,7 +88,6 @@ void	monitoring_states(t_data *box, char *str)
 void *thread_routine(void *arg)
 {
 	t_data	*box; //the struct
-	int		nte; //number times philo eat
 	int		left; //left fork
 	int		right; //right fork
 	bool	rev_oder;
@@ -109,7 +104,6 @@ void *thread_routine(void *arg)
 		rev_oder = true;
 		usleep(500);
 	}
-	nte = 0;
 	pthread_mutex_lock(&box->ptr->death_lock);
 	box->ptr->last_meal[box->ind - 1] = start_timestamp();
 	pthread_mutex_unlock(&box->ptr->death_lock);
@@ -120,10 +114,10 @@ void *thread_routine(void *arg)
 		pthread_mutex_lock(&box->ptr->forks[right]);
 		monitoring_states(box, "is taking fork");
 		pthread_mutex_lock(&box->ptr->death_lock);
+		box->ptr->eat_n[box->ind - 1] += 1;
 		box->ptr->last_meal[box->ind - 1] = start_timestamp();
 		pthread_mutex_unlock(&box->ptr->death_lock);
 		monitoring_states(box, "is eating");
-		nte++;
 		soft_sleeping(box->ptr->tte);
 		monitoring_states(box, "is sleeping");
 		pthread_mutex_unlock(&box->ptr->forks[left]);
@@ -160,6 +154,7 @@ bool	analyse_data_nd_store(char **arg, t_philo *box)
 	}
 	box->some_dead = false;
 	pthread_mutex_init(&box->print_access, NULL);
+	memset(box->eat_n, 0, sizeof(int) * MAX_PHILOS);
 	return (true);
 }
 
