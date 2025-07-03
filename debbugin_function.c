@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 18:27:56 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/06/30 16:39:01 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:05:15 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	print_data(t_philo *box)
 	printf(GREEN"\t%zu"RESET, box->tte);
 	printf(";\t\t│\n");
 	printf("\t│\t└nte   \t=");
-	if (box->nte > 0)
+	if (box->nte >= 0)
 		printf(GREEN"\t%zu"RESET, box->nte);
 	else
 		printf(RED"\t%ld"RESET, box->nte);

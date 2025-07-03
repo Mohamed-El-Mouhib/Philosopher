@@ -6,25 +6,31 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 10:36:48 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:23:43 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 // it just print the error in stderr
-void	print_err(void)
+int	print_err(int errnum)
 {
-	write(2, "number of arguments is less than expected\n", 43);
+	if (errnum == 1)
+		write(2, "philo: number of arguments is not valid\n", 41);
+	else if (errnum == 2)
+		write(2, "philo: numeric argument required\n", 34);
+	else if (errnum == 3)
+		write(2, "philo: error occurred while init mutex\n", 40);
+	return (1);
 }
 
 // this gets the time sence the Epoch in ms
 long long	start_timestamp(void)
 {
 	struct timeval pp;
-	
+
 	gettimeofday(&pp, NULL);
-	return ((pp.tv_sec * 1000L) + (pp.tv_usec / 1000));
+	return ((pp.tv_sec * 1000) + (pp.tv_usec / 1000));
 }
 
 // it takes the duration and iterate till it spend it witouth overusing the cpu
@@ -39,7 +45,7 @@ void	soft_sleeping(long long duration)
 		now = start_timestamp();
 		if (now - start >= duration)
 			break;
-		usleep(100);
+		usleep(1000);
 	}
 }
 
@@ -128,33 +134,52 @@ void *thread_routine(void *arg)
     return NULL;
 }
 
+bool	check_args(char **arg)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (arg[i])
+	{
+		j = 0;
+		while (arg[i][j])
+		{
+			if (arg[i][j] < '0' || arg[i][j] > '9')
+				return (false);
+			j++;
+		}
+		i++;
+	}
+	return (true);
+}
+
 // this analyse and parse the arguments passed to philo and store em in t_philo struct
 bool	analyse_data_nd_store(char **arg, t_philo *box)
 {
 	int	i;
+
+	if (!check_args(arg))
+		return (print_err(2), false);
 	box->ph_nbr = atoi(0[arg]);
 	box->ttd = atoi(1[arg]);
 	box->tts = atoi(2[arg]);
 	box->tte = atoi(3[arg]);
 	memset(box->philos, 0, box->ph_nbr * sizeof(pthread_t));
+	box->nte = -1;
 	if (4[arg])
 		box->nte = atoi(4[arg]);
-	else
-		box->nte = -1;
-	box->forks = malloc(sizeof(pthread_mutex_t) * box->ph_nbr);
-	if (!box->forks)
-		return (false);
 	i = 0;
 	while (i < box->ph_nbr)
 	{
 		box->last_meal[i] = box->f_time;
 		if (pthread_mutex_init(&box->forks[i], NULL))
-			return (perror("philo"), false);
+			return (print_err(3), false);
 		i++;
 	}
 	box->some_dead = false;
-	pthread_mutex_init(&box->print_access, NULL);
-	memset(box->eat_n, 0, sizeof(int) * MAX_PHILOS);
+	if (pthread_mutex_init(&box->death_lock, NULL))
+		return(print_err(3), false);
 	return (true);
 }
 
@@ -165,12 +190,12 @@ int	main(int ac, char **av)
 	pthread_t	tmp;
 	int			i;
 
+	if (ac < 5 || ac > 6)
+		return (print_err(1));
 	ph_box.f_time = start_timestamp();
-	if (ac < 5)
-		return (print_err(), 1);
-	analyse_data_nd_store(av + 1, &ph_box);
-	print_data(&ph_box);
-	pthread_mutex_init(&ph_box.death_lock, NULL);
+	if (!analyse_data_nd_store(av + 1, &ph_box))
+		return (1);
+	// print_data(&ph_box);
 	tmp = pthread_create(&tmp, NULL, monitoring_routing, &ph_box);
 	i = 1;
 	while (i <= ph_box.ph_nbr)
@@ -180,6 +205,12 @@ int	main(int ac, char **av)
 		pthread_create(&ph_box.philos[i - 1], NULL, thread_routine, &data[i - 1]);
 		i++;
 	}
-	pthread_join(ph_box.philos[0], NULL);
+	i = 0;
+	pthread_join(tmp, NULL);
+	while (i < ph_box.ph_nbr)
+	{
+		pthread_join(ph_box.philos[i], NULL);
+		i++;
+	}
 	return (0);
 }

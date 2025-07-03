@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 10:30:23 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:05:47 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_philo
 {
 	int	ph_nbr;								//number of philosophers
 	pthread_t		philos[MAX_PHILOS];		//arr of thread id
-	pthread_mutex_t	*forks;					//pointer to fork arr[ph_nbr]
+	pthread_mutex_t	forks[MAX_PHILOS];		//pointer to fork arr[ph_nbr]
 	size_t			ttd;					//time to die
 	size_t			tte;					//time to eat
 	size_t			tts;					//time to sleep
@@ -36,14 +36,13 @@ typedef struct s_philo
 	pthread_mutex_t	death_lock;				//mutex to protec the shared memory lm[ph_nbr]
 	size_t			last_meal[MAX_PHILOS];	//arr of last meal times of each philo
 	bool			some_dead;				//boolean to check if some philo is dead
-	pthread_mutex_t	print_access;			//mutex for getting access to monitor philo status
 	int				eat_n[MAX_PHILOS];		//arr of nbr times each philo eaten
 }	t_philo;
 
 typedef struct s_data
 {
-	int				ind;				//position of the philo to keep track of it's poisition
-	t_philo			*ptr;				//ptr to t_philo struct
+	int				ind;					//position of the philo to keep track of it's poisition
+	t_philo			*ptr;					//ptr to t_philo struct
 }	t_data;
 
 // MAX_PHILOS * sizeof (int) + sizeof (t_philo *)
