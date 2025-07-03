@@ -1,7 +1,7 @@
 CC=cc
-CFLAGS=-Wall -Werror -Wextra -g -fsanitize=thread 
+CFLAGS=-Wall -Werror -Wextra -g #-fsanitize=thread 
 NAME=philo
-SRC=main.c debbugin_function.c thread_routins.c
+SRC=main.c thread_routins.c analyse_arg.c monitor.c #debbugin_function.c 
 OBJ=$(SRC:%.c=%.o)
 
 all: $(NAME)
@@ -22,4 +22,4 @@ re: fclean all
 
 PHONY: clean fclean re all
 
-# .SECONDARY:
+.SECONDARY: $(OBJ)

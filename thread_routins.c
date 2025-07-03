@@ -6,25 +6,14 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 18:06:36 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:26:19 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void *thread_routine(void *arg)
+static void	philo_loop(int left, int right, t_data *box)
 {
-	t_data	*box;
-	int		left;
-	int		right;
-
-	box = (t_data *)arg;
-	right = box->ind - 1;
-	left = box->ind;
-	if (box->ind == box->ptr->ph_nbr)
-		left = 0;
-	if (box->ind % 2 == 0)
-		usleep(500);
 	pthread_mutex_lock(&box->ptr->death_lock);
 	box->ptr->last_meal[box->ind - 1] = start_timestamp();
 	while (!box->ptr->some_dead)
@@ -47,6 +36,22 @@ void *thread_routine(void *arg)
 		monitoring_states(box, "is thinking");
 		pthread_mutex_lock(&box->ptr->death_lock);
 	}
+}
+
+void	*thread_preparing(void *arg)
+{
+	t_data	*box;
+	int		left;
+	int		right;
+
+	box = (t_data *)arg;
+	right = box->ind - 1;
+	left = box->ind;
+	if (box->ind == box->ptr->ph_nbr)
+		left = 0;
+	if (box->ind % 2 == 0)
+		usleep(500);
+	philo_loop(left, right, box);
 	pthread_mutex_unlock(&box->ptr->death_lock);
-    return (NULL);
+	return (NULL);
 }
