@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 13:05:47 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:08:24 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_philo
 	pthread_mutex_t	death_lock;				//mutex to protec the shared memory lm[ph_nbr]
 	size_t			last_meal[MAX_PHILOS];	//arr of last meal times of each philo
 	bool			some_dead;				//boolean to check if some philo is dead
-	int				eat_n[MAX_PHILOS];		//arr of nbr times each philo eaten
+	ssize_t			eat_n[MAX_PHILOS];		//arr of nbr times each philo eaten
 }	t_philo;
 
 typedef struct s_data
@@ -45,9 +45,14 @@ typedef struct s_data
 	t_philo			*ptr;					//ptr to t_philo struct
 }	t_data;
 
-// MAX_PHILOS * sizeof (int) + sizeof (t_philo *)
-// inputed time is should be *1000 to be in miliseconds
-
-void	print_data(t_philo *box);
+bool		check_args(char **arg);
+int			print_err(int errnum);
+long long	start_timestamp(void);
+void		print_data(t_philo *box);
+void		*thread_routine(void *arg);
+void		*monitoring_routing(void *arg);
+void		soft_sleeping(long long duration);
+void		monitoring_states(t_data *box, char *str);
+bool		analyse_data_nd_store(char **arg, t_philo *box);
 
 #endif
