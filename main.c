@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 23:31:53 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 23:37:22 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ int	print_err(int errnum)
 	if (errnum == 1)
 		write(2, "philo: number of arguments is not valid\n", 41);
 	else if (errnum == 2)
-		write(2, "philo: You need a valid argumen\n", 33);
+		write(2, "philo: You need a valid argument\n", 34);
 	else if (errnum == 3)
 		write(2, "philo: error occurred while init mutex\n", 40);
+	else if (errnum == 4)
+		write(2, "philo: invalid number of philosophers\n", 39);
 	return (1);
 }
 
