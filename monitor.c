@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 18:26:52 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:21:21 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	*monitoring_routing(void *arg)
 		{
 			pthread_mutex_lock(&box->death_lock);
 			now = start_timestamp();
-			if ((now - box->last_meal[i] >= box->ttd)
+			if ((now - box->last_meal[i] > box->ttd)
 				|| (box->nte >= 0 && box->nte == box->eat_n[i]))
 			{
 				printf("%lld %d is died\n", now - box->f_time, i + 1);
@@ -62,7 +62,7 @@ void	*monitoring_routing(void *arg)
 			}
 			pthread_mutex_unlock(&box->death_lock);
 		}
-		usleep(1000);
+		usleep(600);
 	}
 	return (NULL);
 }

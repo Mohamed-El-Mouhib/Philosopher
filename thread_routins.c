@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 18:26:19 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:22:22 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,15 @@ void	*thread_preparing(void *arg)
 		left = 0;
 	if (box->ind % 2 == 0)
 		usleep(500);
-	philo_loop(left, right, box);
-	pthread_mutex_unlock(&box->ptr->death_lock);
+	if (box->ptr->ph_nbr == 1)
+	{
+		printf("%lld %d is taking a fork\n",
+			start_timestamp() - box->ptr->f_time, box->ind);
+	}
+	else
+	{
+		philo_loop(left, right, box);
+		pthread_mutex_unlock(&box->ptr->death_lock);
+	}
 	return (NULL);
 }

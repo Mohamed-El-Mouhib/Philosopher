@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:15:30 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 18:28:57 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 11:50:55 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ bool	analyse_data_nd_store(char **arg, t_philo *box)
 	if (!check_args(arg))
 		return (print_err(2), false);
 	box->ph_nbr = atoi(arg[0]);
+	if (!box->ph_nbr)
+		return (false);
 	box->ttd = atoi(arg[1]);
 	box->tts = atoi(arg[2]);
 	box->tte = atoi(arg[3]);
@@ -54,7 +56,6 @@ bool	analyse_data_nd_store(char **arg, t_philo *box)
 	}
 	memset(box->philos, 0, box->ph_nbr * sizeof(pthread_t));
 	memset(box->eat_n, 0, sizeof(int) * MAX_PHILOS);
-	box->some_dead = false;
 	if (pthread_mutex_init(&box->death_lock, NULL))
 		return (print_err(3), false);
 	return (true);

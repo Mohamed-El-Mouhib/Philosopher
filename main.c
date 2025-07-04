@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 18:25:38 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:18:51 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int ac, char **av)
 	ph_box.f_time = start_timestamp();
 	if (!analyse_data_nd_store(av + 1, &ph_box))
 		return (1);
+	ph_box.some_dead = false;
 	pthread_create(&tmp, NULL, monitoring_routing, &ph_box);
 	i = 1;
 	while (i <= ph_box.ph_nbr)
