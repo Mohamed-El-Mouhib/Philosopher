@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 12:44:00 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 23:14:37 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*monitoring_routing(void *arg)
 			}
 			pthread_mutex_unlock(&box->death_lock);
 		}
-		usleep(600);
+		usleep(500);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:15:30 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 11:50:55 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 23:33:11 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,29 @@
 
 bool	check_args(char **arg)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (arg[i])
+	int (i), (j), (len), (toggle);
+	i = -1;
+	while (arg[++i])
 	{
-		j = 0;
-		while (arg[i][j])
+		j = -1;
+		toggle = 0;
+		len = 0;
+		if (arg[i][0] == '+')
+			j++;
+		while (arg[i][++j])
 		{
 			if (arg[i][j] < '0' || arg[i][j] > '9')
 				return (false);
-			j++;
+			else if (arg[i][j] == '0' && toggle)
+				continue ;
+			else if (arg[i][j] >= '0' && arg[i][j] <= '9')
+			{
+				len++;
+				toggle = false;
+			}
 		}
-		i++;
+		if (len >= 21)
+			return (false);
 	}
 	return (true);
 }
