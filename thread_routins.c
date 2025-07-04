@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 12:22:22 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:47:53 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	philo_loop(int left, int right, t_data *box)
 {
 	pthread_mutex_lock(&box->ptr->death_lock);
-	box->ptr->last_meal[box->ind - 1] = start_timestamp();
 	while (!box->ptr->some_dead)
 	{
 		pthread_mutex_unlock(&box->ptr->death_lock);

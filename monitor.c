@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 12:21:21 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:44:00 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	soft_sleeping(long long duration)
 		now = start_timestamp();
 		if (now - start >= duration)
 			break ;
-		usleep(1000);
+		usleep(600);
 	}
 }
 
