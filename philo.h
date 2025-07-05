@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/03 18:24:21 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/05 10:59:44 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/time.h>
 
 # define MAX_PHILOS 200
+# define IMX 2147483647
 
 typedef struct s_philo
 {

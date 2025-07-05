@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:15:30 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 23:38:02 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/05 13:52:28 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	check_args(char **arg)
 				toggle = false;
 			}
 		}
-		if (len >= 21)
+		if (len >= 20)
 			return (false);
 	}
 	return (true);
@@ -48,11 +48,11 @@ bool	analyse_data_nd_store(char **arg, t_philo *box)
 	if (!check_args(arg))
 		return (print_err(2), false);
 	box->ph_nbr = atoi(arg[0]);
-	if (!box->ph_nbr || box->ph_nbr > 200)
+	if (!box->ph_nbr || box->ph_nbr > 200 || box->tte > IMX || box->tts > IMX)
 		return (print_err(4), false);
 	box->ttd = atoi(arg[1]);
-	box->tts = atoi(arg[2]);
-	box->tte = atoi(arg[3]);
+	box->tte = atoi(arg[2]);
+	box->tts = atoi(arg[3]);
 	box->nte = -1;
 	if (arg[4])
 		box->nte = atoi(arg[4]);

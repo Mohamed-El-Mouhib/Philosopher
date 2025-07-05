@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 23:37:22 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/04 23:46:44 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ void	wait_philos(t_philo *box, pthread_t monitor)
 	i = -1;
 	pthread_join(monitor, NULL);
 	while (++i < box->ph_nbr)
+	{
 		pthread_join(box->philos[i], NULL);
+		pthread_mutex_destroy(&box->forks[i]);
+	}
+	pthread_mutex_destroy(&box->death_lock);
 }
 
 int	main(int ac, char **av)
