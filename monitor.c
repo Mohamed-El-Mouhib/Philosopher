@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/05 13:53:10 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:02:45 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,56 @@ void	soft_sleeping(long long duration)
 	}
 }
 
-void	*monitoring_routing(void *arg)
+bool	check_meals(t_philo *box)
+{
+	int		i;
+
+	i = -1;
+	while (++i < box->ph_nbr)
+	{
+		if (box->eat_n[i] < box->nte)
+			break ;
+		if (i == box->ph_nbr)
+			return (true);
+	}
+	return (false);
+}
+
+bool	check_starv(t_philo *box)
 {
 	int			i;
-	t_philo		*box;
 	long long	now;
+
+	i = -1;
+	now = start_timestamp();
+	while (++i < box->ph_nbr)
+	{
+		if (now - box->last_meal[i] > box->ttd)
+		{
+			printf("%lld %d is died\n", now - box->f_time, i + 1);
+			box->some_dead = true;
+			return (true);
+		}
+		i++;
+	}
+	return (false);
+}
+
+void	*monitoring_routing(void *arg)
+{
+	t_philo		*box;
 
 	box = (t_philo *)arg;
 	while (1)
 	{
-		i = -1;
-		while (++i < box->ph_nbr)
-		{
-			pthread_mutex_lock(&box->death_lock);
-			now = start_timestamp();
-			if ((now - box->last_meal[i] > box->ttd)
-				|| (box->nte >= 0 && box->nte == box->eat_n[i]))
-			{
-				printf("%lld %d is died\n", now - box->f_time, i + 1);
-				box->some_dead = true;
-				pthread_mutex_unlock(&box->death_lock);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&box->death_lock);
-		}
-		usleep(500);
+		pthread_mutex_lock(&box->death_lock);
+		if (check_meals(box))
+			break ;
+		if (check_starv(box))
+			break ;
+		pthread_mutex_unlock(&box->death_lock);
+		usleep(600);
 	}
+	pthread_mutex_unlock(&box->death_lock);
 	return (NULL);
 }

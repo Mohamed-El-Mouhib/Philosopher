@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/05 13:41:01 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/05 19:07:29 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	philo_loop(int left, int right, t_data *box)
 {
 	pthread_mutex_lock(&box->ptr->death_lock);
-	while (!box->ptr->some_dead)
+	while (!box->ptr->some_dead && (box->ptr->nte == -1 || box->ptr->eat_n[box->ind - 1] < box->ptr->nte))
 	{
 		pthread_mutex_unlock(&box->ptr->death_lock);
 		pthread_mutex_lock(&box->ptr->forks[left]);
