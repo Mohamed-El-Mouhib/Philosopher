@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/06 16:04:26 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:05:38 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	philo_loop(int left, int right, t_data *box)
 	{
 		pthread_mutex_unlock(&box->ptr->death_lock);
 		pthread_mutex_lock(&box->ptr->forks[left]);
-		monitoring_states(box, "is taking fork");
+		monitoring_states(box, " has taken a fork");
 		pthread_mutex_lock(&box->ptr->forks[right]);
-		monitoring_states(box, "is taking fork");
+		monitoring_states(box, " has taken a fork");
 		pthread_mutex_lock(&box->ptr->death_lock);
 		box->ptr->eat_n[box->ind - 1] += 1;
 		box->ptr->last_meal[box->ind - 1] = start_timestamp();

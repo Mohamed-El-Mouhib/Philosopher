@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/06 16:02:45 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:06:15 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	check_starv(t_philo *box)
 	{
 		if (now - box->last_meal[i] > box->ttd)
 		{
-			printf("%lld %d is died\n", now - box->f_time, i + 1);
+			printf("%lld %d died\n", now - box->f_time, i + 1);
 			box->some_dead = true;
 			return (true);
 		}
