@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/06 16:06:15 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:49:14 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ bool	check_meals(t_philo *box)
 	i = -1;
 	while (++i < box->ph_nbr)
 	{
-		if (box->eat_n[i] < box->nte)
+		if (box->nte == -1 || box->eat_n[i] < box->nte)
 			break ;
-		if (i == box->ph_nbr)
+		if (i + 1 == box->ph_nbr)
 			return (true);
 	}
 	return (false);
@@ -62,7 +62,8 @@ bool	check_starv(t_philo *box)
 	now = start_timestamp();
 	while (++i < box->ph_nbr)
 	{
-		if (now - box->last_meal[i] > box->ttd)
+		if ((box->nte == -1 || box->eat_n[i] < box->nte)
+			&& now - box->last_meal[i] > box->ttd)
 		{
 			printf("%lld %d died\n", now - box->f_time, i + 1);
 			box->some_dead = true;
