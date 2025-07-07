@@ -6,13 +6,13 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/06 16:05:38 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:31:34 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	philo_loop(int left, int right, t_data *box)
+static void	philo_loop(t_data *box)
 {
 	pthread_mutex_lock(&box->ptr->death_lock);
 	while (!box->ptr->some_dead
@@ -20,9 +20,9 @@ static void	philo_loop(int left, int right, t_data *box)
 			|| box->ptr->eat_n[box->ind - 1] < box->ptr->nte))
 	{
 		pthread_mutex_unlock(&box->ptr->death_lock);
-		pthread_mutex_lock(&box->ptr->forks[left]);
+		pthread_mutex_lock(&box->ptr->forks[box->l]);
 		monitoring_states(box, " has taken a fork");
-		pthread_mutex_lock(&box->ptr->forks[right]);
+		pthread_mutex_lock(&box->ptr->forks[box->r]);
 		monitoring_states(box, " has taken a fork");
 		pthread_mutex_lock(&box->ptr->death_lock);
 		box->ptr->eat_n[box->ind - 1] += 1;
@@ -31,8 +31,8 @@ static void	philo_loop(int left, int right, t_data *box)
 		monitoring_states(box, "is eating");
 		soft_sleeping(box->ptr->tte);
 		monitoring_states(box, "is sleeping");
-		pthread_mutex_unlock(&box->ptr->forks[left]);
-		pthread_mutex_unlock(&box->ptr->forks[right]);
+		pthread_mutex_unlock(&box->ptr->forks[box->l]);
+		pthread_mutex_unlock(&box->ptr->forks[box->r]);
 		soft_sleeping(box->ptr->tts);
 		monitoring_states(box, "is thinking");
 		pthread_mutex_lock(&box->ptr->death_lock);
@@ -42,24 +42,16 @@ static void	philo_loop(int left, int right, t_data *box)
 void	*thread_preparing(void *arg)
 {
 	t_data	*box;
-	int		left;
-	int		right;
 
 	box = (t_data *)arg;
-	right = box->ind - 1;
-	left = box->ind;
-	if (box->ind == box->ptr->ph_nbr)
-		left = 0;
-	if (box->ind % 2 == 0)
-		usleep(300);
 	if (box->ptr->ph_nbr == 1)
 	{
-		printf("%lld %d is taking a fork\n",
+		printf("%lld %d has taken a fork\n",
 			start_timestamp() - box->ptr->f_time, box->ind);
 	}
 	else
 	{
-		philo_loop(left, right, box);
+		philo_loop(box);
 		pthread_mutex_unlock(&box->ptr->death_lock);
 	}
 	return (NULL);

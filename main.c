@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/04 23:46:44 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:24:30 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,38 @@ void	wait_philos(t_philo *box, pthread_t monitor)
 	i = -1;
 	pthread_join(monitor, NULL);
 	while (++i < box->ph_nbr)
-	{
 		pthread_join(box->philos[i], NULL);
+	i = - 1;
+	while (++i < box->ph_nbr)
 		pthread_mutex_destroy(&box->forks[i]);
-	}
 	pthread_mutex_destroy(&box->death_lock);
+}
+
+void	lunch_thread(t_data *data, t_philo *box)
+{
+	int	i;
+
+	i = 0;
+	while (i < box->ph_nbr)
+	{
+		data[i].ind = i + 1;
+		data[i].l = (i + 1) % box->ph_nbr;
+		data[i].r = i;
+		data[i].ptr = box;
+		pthread_create(&box->philos[i], NULL, thread_preparing, &data[i]);
+		i += 2;
+	}
+	usleep(400);
+	i = 1;
+	while (i < box->ph_nbr)
+	{
+		data[i].ind = i + 1;
+		data[i].l = i;
+		data[i].r = (i + 1) % box->ph_nbr;
+		data[i].ptr = box;
+		pthread_create(&box->philos[i], NULL, thread_preparing, &data[i]);
+		i += 2;
+	}
 }
 
 int	main(int ac, char **av)
@@ -52,7 +79,6 @@ int	main(int ac, char **av)
 	t_philo		ph_box;
 	t_data		data[MAX_PHILOS];
 	pthread_t	tmp;
-	int			i;
 
 	if (ac < 5 || ac > 6)
 		return (print_err(1));
@@ -60,15 +86,7 @@ int	main(int ac, char **av)
 	if (!analyse_data_nd_store(av + 1, &ph_box))
 		return (1);
 	ph_box.some_dead = false;
-	i = 1;
-	while (i <= ph_box.ph_nbr)
-	{
-		data[i - 1].ind = i;
-		data[i - 1].ptr = &ph_box;
-		pthread_create(&ph_box.philos[i - 1],
-			NULL, thread_preparing, &data[i - 1]);
-		i++;
-	}
+	lunch_thread(data, &ph_box);
 	pthread_create(&tmp, NULL, monitoring_routing, &ph_box);
 	wait_philos(&ph_box, tmp);
 }

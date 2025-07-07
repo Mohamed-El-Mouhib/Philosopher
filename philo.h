@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/05 10:59:44 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:45:39 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,14 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				ind;
+	int				l;
+	int				r;
 	t_philo			*ptr;
 }	t_data;
 
 bool		check_args(char **arg);
 int			print_err(int errnum);
 long long	start_timestamp(void);
-void		print_data(t_philo *box);
 void		*thread_preparing(void *arg);
 void		*monitoring_routing(void *arg);
 void		soft_sleeping(long long duration);
