@@ -6,23 +6,24 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/08 17:45:13 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/08 22:04:50 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// bool	meal_done
+
 static void	philo_loop(t_data *box)
 {
+	if (box->ind % 2 != 0)
+		usleep(400);
 	while (1)
 	{
 		pthread_mutex_lock(&box->ptr->death_lock);
 		if (box->ptr->some_dead || (box->ptr->nte != -1 && box->ptr->eat_n[box->ind - 1] >= box->ptr->nte))
 			break ;
 		pthread_mutex_unlock(&box->ptr->death_lock);
-		if (box->ind % 2 != 0)
-			usleep(400);
-			// soft_sleeping(5);
 		pthread_mutex_lock(&box->ptr->forks[box->l]);
 		monitoring_states(box, " has taken a fork");
 		pthread_mutex_lock(&box->ptr->forks[box->r]);
@@ -38,6 +39,8 @@ static void	philo_loop(t_data *box)
 		pthread_mutex_unlock(&box->ptr->forks[box->r]);
 		soft_sleeping(box->ptr->tts);
 		monitoring_states(box, "is thinking");
+		if (box->ptr->ph_nbr % 2 != 0)
+			soft_sleeping(box->ptr->ttd - (box->ptr->tts + box->ptr->tte));
 	}
 	pthread_mutex_unlock(&box->ptr->death_lock);
 }
