@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/08 17:32:41 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:51:32 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	print_err(int errnum)
 		write(2, "philo: You need a valid argument\n", 34);
 	else if (errnum == 3)
 		write(2, "philo: error occurred while init mutex\n", 40);
-	else if (errnum == 4)
-		write(2, "philo: invalid number of philosophers\n", 39);
 	return (1);
 }
 
@@ -45,6 +43,7 @@ void	wait_philos(t_philo *box, pthread_t monitor)
 	while (++i < box->ph_nbr)
 		pthread_mutex_destroy(&box->forks[i]);
 	pthread_mutex_destroy(&box->death_lock);
+	pthread_mutex_destroy(&box->meal_update);
 }
 
 void	lunch_thread(t_data *data, t_philo *box)

@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/07 21:45:39 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 09:27:27 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_philo
 	size_t			last_meal[MAX_PHILOS];
 	bool			some_dead;
 	ssize_t			eat_n[MAX_PHILOS];
+	pthread_mutex_t	meal_update;
 }	t_philo;
 
 typedef struct s_data

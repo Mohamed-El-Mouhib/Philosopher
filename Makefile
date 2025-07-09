@@ -1,7 +1,7 @@
 CC=cc
 CFLAGS=-Wall -Werror -Wextra -fsanitize=thread -g
 NAME=philo
-SRC=main.c thread_routins.c analyse_arg.c monitor.c #debbugin_function.c 
+SRC=main.c thread_routins.c analyse_arg.c monitor.c
 OBJ=$(SRC:%.c=%.o)
 
 all: $(NAME)
