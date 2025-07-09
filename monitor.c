@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/09 16:35:14 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:17:22 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	monitoring_states(t_data *box, char *str)
 {
-	long long	now;
-
-	now = start_timestamp();
 	pthread_mutex_lock(&box->ptr->death_lock);
 	if (!box->ptr->some_dead)
-		printf("%lld %d %s\n", now - box->ptr->f_time, box->ind, str);
+		printf("%lld %d %s\n", start_timestamp()
+			- box->ptr->f_time, box->ind, str);
 	pthread_mutex_unlock(&box->ptr->death_lock);
 }
 
@@ -65,18 +63,16 @@ bool	check_meals(t_philo *box)
 bool	check_starv(t_philo *box)
 {
 	int			i;
-	long long	now;
 
 	i = -1;
-	now = start_timestamp();
 	pthread_mutex_lock(&box->death_lock);
 	pthread_mutex_lock(&box->meal_update);
 	while (++i < box->ph_nbr)
 	{
 		if ((box->nte == -1 || box->eat_n[i] < box->nte)
-			&& now - box->last_meal[i] > box->ttd)
+			&& start_timestamp() - box->last_meal[i] > box->ttd)
 		{
-			printf("%lld %d died\n", now - box->f_time, i + 1);
+			printf("%lld %d died\n", start_timestamp() - box->f_time, i + 1);
 			pthread_mutex_unlock(&box->meal_update);
 			box->some_dead = true;
 			return ((void)pthread_mutex_unlock(&box->death_lock), true);

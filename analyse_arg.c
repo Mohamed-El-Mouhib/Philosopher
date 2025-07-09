@@ -6,11 +6,40 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:15:30 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/09 15:50:37 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:19:09 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_atoi(const char *str)
+{
+	int			i;
+	long int	numbers;
+	int			sign;
+
+	i = 0;
+	numbers = 0;
+	sign = 1;
+	if (!str)
+		return (0);
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '+')
+			;
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		numbers = numbers * 10 + (str[i] - '0');
+		i++;
+	}
+	return (numbers * sign);
+}
 
 bool	check_args(char **arg)
 {
@@ -78,10 +107,10 @@ bool	analyse_data_nd_store(char **arg, t_philo *box)
 {
 	if (!check_args(arg))
 		return (print_err(2), false);
-	box->ph_nbr = atoi(arg[0]);
-	box->ttd = atoi(arg[1]);
-	box->tte = atoi(arg[2]);
-	box->tts = atoi(arg[3]);
+	box->ph_nbr = ft_atoi(arg[0]);
+	box->ttd = ft_atoi(arg[1]);
+	box->tte = ft_atoi(arg[2]);
+	box->tts = ft_atoi(arg[3]);
 	if (!box->ph_nbr || box->ph_nbr > 200 || box->tte > IMX || box->tts > IMX)
 		return (print_err(2), false);
 	box->nte = -1;
