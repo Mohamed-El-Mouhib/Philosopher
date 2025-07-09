@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:17:25 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/09 15:26:33 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:35:14 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	monitoring_states(t_data *box, char *str)
 	pthread_mutex_unlock(&box->ptr->death_lock);
 }
 
-void	soft_sleeping(long long duration)
+void	soft_sleeping(long long duration, t_data *box)
 {
 	long	start;
 	long	now;
@@ -31,6 +31,13 @@ void	soft_sleeping(long long duration)
 	start = start_timestamp();
 	while (1)
 	{
+		pthread_mutex_lock(&box->ptr->death_lock);
+		if (box->ptr->some_dead)
+		{
+			pthread_mutex_unlock(&box->ptr->death_lock);
+			return ;
+		}
+		pthread_mutex_unlock(&box->ptr->death_lock);
 		now = start_timestamp();
 		if (now - start >= duration)
 			break ;

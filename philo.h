@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:38:27 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/09 09:27:27 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:29:42 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int			print_err(int errnum);
 long long	start_timestamp(void);
 void		*thread_preparing(void *arg);
 void		*monitoring_routing(void *arg);
-void		soft_sleeping(long long duration);
+void		soft_sleeping(long long duration, t_data *box);
 void		monitoring_states(t_data *box, char *str);
 bool		analyse_data_nd_store(char **arg, t_philo *box);
 

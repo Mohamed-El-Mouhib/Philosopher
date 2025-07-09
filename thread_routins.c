@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/09 15:40:30 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:29:50 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ static void	philo_loop(t_data *box)
 		box->ptr->last_meal[box->ind - 1] = start_timestamp();
 		pthread_mutex_unlock(&box->ptr->meal_update);
 		monitoring_states(box, "is eating");
-		soft_sleeping(box->ptr->tte);
+		soft_sleeping(box->ptr->tte, box);
 		monitoring_states(box, "is sleeping");
 		pthread_mutex_unlock(&box->ptr->forks[box->l]);
 		pthread_mutex_unlock(&box->ptr->forks[box->r]);
-		soft_sleeping(box->ptr->tts);
+		soft_sleeping(box->ptr->tts, box);
 		monitoring_states(box, "is thinking");
 		if (box->ptr->ph_nbr % 2 != 0)
 			usleep(200);
