@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:54:22 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/09 16:29:50 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:04:32 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,6 @@ void	*thread_preparing(void *arg)
 			start_timestamp() - box->ptr->f_time, box->ind);
 	}
 	else
-	{
-		if (box->ind % 2 != 0)
-			usleep(400);
 		philo_loop(box);
-	}
 	return (NULL);
 }

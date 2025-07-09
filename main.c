@@ -6,7 +6,7 @@
 /*   By: mel-mouh <mel-mouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 00:50:26 by mel-mouh          #+#    #+#             */
-/*   Updated: 2025/07/09 15:51:32 by mel-mouh         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:06:06 by mel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,22 @@ void	lunch_thread(t_data *data, t_philo *box)
 	while (i < box->ph_nbr)
 	{
 		data[i].ind = i + 1;
-		if (i % 2 == 0)
-		{
-			data[i].l = (i + 1) % box->ph_nbr;
-			data[i].r = i;
-		}
-		else
-		{
-			data[i].r = (i + 1) % box->ph_nbr;
-			data[i].l = i;
-		}
+		data[i].r = (i + 1) % box->ph_nbr;
+		data[i].l = i;
 		data[i].ptr = box;
 		pthread_create(&box->philos[i], NULL, thread_preparing, &data[i]);
-		i++;
+		i += 2;
+	}
+	usleep(600);
+	i = 1;
+	while (i < box->ph_nbr)
+	{
+		data[i].ind = i + 1;
+		data[i].l = (i + 1) % box->ph_nbr;
+		data[i].r = i;
+		data[i].ptr = box;
+		pthread_create(&box->philos[i], NULL, thread_preparing, &data[i]);
+		i += 2;
 	}
 }
 

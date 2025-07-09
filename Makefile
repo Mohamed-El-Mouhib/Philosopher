@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-Wall -Werror -Wextra #-fsanitize=thread -g
+CFLAGS=-Wall -Werror -Wextra
 NAME=philo
 SRC=main.c thread_routins.c analyse_arg.c monitor.c
 OBJ=$(SRC:%.c=%.o)
