@@ -65,10 +65,10 @@ bool	check_starv(t_philo *box)
 	int			i;
 
 	i = -1;
-	pthread_mutex_lock(&box->death_lock);
-	pthread_mutex_lock(&box->meal_update);
 	while (++i < box->ph_nbr)
 	{
+		pthread_mutex_lock(&box->death_lock);
+		pthread_mutex_lock(&box->meal_update);
 		if ((box->nte == -1 || box->eat_n[i] < box->nte)
 			&& start_timestamp() - box->last_meal[i] > box->ttd)
 		{
@@ -78,9 +78,9 @@ bool	check_starv(t_philo *box)
 			return ((void)pthread_mutex_unlock(&box->death_lock), true);
 		}
 		i++;
+		pthread_mutex_unlock(&box->meal_update);
+		pthread_mutex_unlock(&box->death_lock);
 	}
-	pthread_mutex_unlock(&box->meal_update);
-	pthread_mutex_unlock(&box->death_lock);
 	return (false);
 }
 

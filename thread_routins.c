@@ -53,7 +53,7 @@ static void	philo_loop(t_data *box)
 		soft_sleeping(box->ptr->tts, box);
 		monitoring_states(box, "is thinking");
 		if (box->ptr->ph_nbr % 2 != 0)
-			usleep(200);
+			soft_sleeping(box->ptr->ttd - (box->ptr->tts + box->ptr->tte), box);
 	}
 }
 
