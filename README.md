@@ -11,7 +11,6 @@ Table of Contents
 - [Parameters](#parameters)
 - [Compilation](#compilation)
 - [Example](#example)
-- [License](#license)
 
 ---
 
@@ -37,9 +36,7 @@ This solution uses multithreading to simulate the philosophers' behavior and ens
 
 ---
 
-Usage
-
-Parameters
+# Parameters
 
 
 The program philo accepts the following parameters:
@@ -89,7 +86,7 @@ After compiling, you can run the program using the following syntax:
 
 	./philo number_of_philos time_to_die time_to_eat time_to_sleep [number_times_of_eating]
 
-Example
+# Example
 
 	./philo 5 800 200 200 5
 
