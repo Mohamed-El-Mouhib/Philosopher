@@ -1,13 +1,11 @@
 Dining Philosophers Solution
 
-
 This repository contains a basic solution to the Dining Philosophers Problem, implemented as part of the 42 Philosophers project. The program simulates philosophers sitting at a table, thinking, eating, and sleeping, while avoiding deadlocks and starvation.
 
 Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
-- [Usage](#usage)
 - [Parameters](#parameters)
 - [Compilation](#compilation)
 - [Example](#example)
