@@ -15,7 +15,7 @@ Table of Contents
 
 ---
 
-Overview
+# Overview
 
 
 The Dining Philosophers Problem is a classic synchronization problem in computer science. It involves philosophers sitting at a table with forks between them. Each philosopher alternates between thinking, eating, and sleeping, but they must acquire forks to eat. The challenge is to ensure that no philosopher starves or causes a deadlock.
@@ -25,7 +25,7 @@ This solution uses multithreading to simulate the philosophers' behavior and ens
 
 ---
 
-Features
+# Features
 
 - Simulates the behavior of philosophers:
 	- Thinking
@@ -53,7 +53,7 @@ The program philo accepts the following parameters:
 
 ---
 
-Compilation
+# Compilation
 
 
 To compile the program, use the provided Makefile. Simply run:
