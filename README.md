@@ -5,13 +5,13 @@ This repository contains a basic solution to the Dining Philosophers Problem, im
 
 Table of Contents
 
-- Overview
-- Features
-- Usage
-- Parameters
-- Compilation
-- Example
-- License
+- [Overview](#overview)
+- [Features](#features)
+- [Usage](#usage)
+- [Parameters](#parameters)
+- [Compilation](#compilation)
+- [Example](#example)
+- [License](#license)
 
 ---
 
