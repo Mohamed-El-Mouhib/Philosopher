@@ -104,8 +104,12 @@ Example Output
 The program will output logs showing the philosophers' actions:
 
 
-	0 ms: Philosopher 1 is thinking
-	10 ms: Philosopher 1 is eating
-	210 ms: Philosopher 1 is sleeping
-	220 ms: Philosopher 2 is thinking
+	0 3  has taken a fork
+	0 3  has taken a fork
+	0 3 is eating
+	0 1  has taken a fork
+	0 1  has taken a fork
+	0 1 is eating
+	0 5  has taken a fork
+	200 3 is sleeping
 	...
